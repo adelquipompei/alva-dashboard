@@ -7,6 +7,7 @@ import MiniDrawer from './components/MiniDrawer';
 import { Routes,Route } from 'react-router-dom';
 import Home from './components/Home'
 import AgregarProducto from './components/AgregarProducto';
+import ExcelUploader from './components/ExcelUploader';
 
 
 
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path='/' element= {<Home/>} />
         <Route path='/agregar-producto' element= {<AgregarProducto/>} />
+        <Route path='/subir-excel' element= {<ExcelUploader/>} />
       </Routes>
 
 

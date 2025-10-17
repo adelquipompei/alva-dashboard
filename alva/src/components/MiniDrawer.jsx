@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ArticleIcon from '@mui/icons-material/Article';
 
 
 const drawerWidth = 240;
@@ -107,6 +108,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 let items = [
   {text:'Inicio', path:'/', icon: <HomeIcon/>},
   {text:'Agregar Producto', path:'/agregar-producto', icon: <AddIcon/>},
+  {text:'Subir Excel', path:'/subir-excel', icon: <ArticleIcon/>},
 
 ]
 
