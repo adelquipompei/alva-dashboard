@@ -20,6 +20,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDropzone } from "react-dropzone";
 
+
 export default function AgregarProducto() {
   const [producto, setProducto] = useState({
     marca: "",
@@ -71,6 +72,8 @@ export default function AgregarProducto() {
       })
     );
 
+    
+
     setImagenes((prev) => [...prev, ...comprimidas]);
     setLoadingGlobal(false);
   }, []);
@@ -86,38 +89,55 @@ export default function AgregarProducto() {
   };
 
   const navigate = useNavigate();
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    try{
-      setLoading(true)
-      const res = await fetch('http://localhost:5000/add-producto',{
-      method:'POST',
-      headers:{'Content-Type': 'application/json'},
-      body:JSON.stringify(producto)      
-    })
-    
-    setLoading(false)
-    setMensaje("Producto agregado correctamente ✅") 
-    console.log("✅ Producto agregado:", producto);
-    console.log("📸 Imágenes comprimidas:", imagenes.map((img) => img.file));   
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    // 1️⃣ Crear FormData
+    const formData = new FormData();
+    formData.append("marca", producto.marca);
+    formData.append("modelo", producto.modelo);
+    formData.append("medida", producto.medida);
+    formData.append("tipo", producto.tipo);
+    formData.append("precio", producto.precio);
+    formData.append("stock", producto.stock);
+
+    // 2️⃣ Agregar las imágenes comprimidas
+    imagenes.forEach((img) => {
+  // si no tiene nombre, le ponemos uno con extensión .jpg
+  const fileWithName = new File([img.file], img.file.name || `imagen-${Date.now()}.jpg`, { type: img.file.type });
+  formData.append("imagenes", fileWithName);
+});
+
+
+    // 3️⃣ Enviar todo al backend
+    const res = await fetch("http://localhost:5000/add-producto", {
+      method: "POST",
+      body: formData, // no pongas headers manualmente
+    });
+
+    if (!res.ok) throw new Error("Error en la respuesta del servidor");
+
+    setMensaje("Producto agregado correctamente ✅");
     setOpen(true);
     setProducto({
-      marca: "",    
+      marca: "",
+      modelo: "",
       medida: "",
       tipo: "",
       precio: "",
       stock: "",
     });
     setImagenes([]);
-   
-    }catch (e) {
-      setLoading(false)
-       setOpen(true);
-       setMensaje("Error! No se pudo agregar el producto ❌ " + `(${e})`) 
-       
-    }
-    
-  };
+  } catch (e) {
+    setMensaje("Error! No se pudo agregar el producto ❌ " + e.message);
+    setOpen(true);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <Box
