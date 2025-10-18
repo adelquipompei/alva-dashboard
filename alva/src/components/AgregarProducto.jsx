@@ -81,7 +81,8 @@ export default function AgregarProducto() {
 
     try {
       const formData = new FormData();
-      Object.keys(producto).forEach((key) => formData.append(key, producto[key]));
+
+      formData.append("producto", JSON.stringify(producto));
 
       // Mantengo imágenes por si quieres enviarlas también
       imagenes.forEach((img) => {
@@ -93,6 +94,8 @@ export default function AgregarProducto() {
         method: "POST",
         body: formData,
       });
+
+      
       console.log(imagenes)
 
       if (!res.ok) throw new Error("Error en la respuesta del servidor");

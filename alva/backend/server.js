@@ -107,17 +107,38 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 // 📋 Endpoint para traer precios
 app.get("/precios", (req, res) => {
-  db.query("SELECT * FROM precios", (err, results) => {
+  db.query("SELECT * FROM precios order by id  desc", (err, results) => {
     if (err) return res.status(500).send(err);
     res.json(results);
   });
 });
 
-app.post("/add-producto", upload.array("imagenes", 5), (req, res) => {
-  console.log(req.body); // texto
-  console.log(req.files); // array de archivos
-  res.send("Archivos recibidos");
+app.post("/add-producto", upload.array("imagenes", 5), async (req, res) => {
+  try {
+    if (!req.body.producto) return res.status(400).send("No hay producto enviado");
+
+    const producto = JSON.parse(req.body.producto); // objeto único, no array
+
+    const { marca, codigo, descripcion, ancho, perfil, rodado, carga, precio } = producto;
+
+    const dbPromise = db.promise();
+    await dbPromise.query(
+      "INSERT INTO precios (marca, codigo, descripcion, ancho, perfil, rodado, carga, precio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [marca, codigo, descripcion, ancho, perfil, rodado, carga, precio || 0]
+    );
+
+    if (req.files && req.files.length > 0) {
+      console.log("Archivos subidos:", req.files.map(f => f.filename));
+    }
+
+    res.send("Producto guardado correctamente ✅");
+  } catch (error) {
+    console.error("❌ Error guardando producto:", error);
+    res.status(500).send("Error guardando producto");
+  }
 });
+
+;
 
 
 const PORT = 5000;
