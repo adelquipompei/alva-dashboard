@@ -40,7 +40,7 @@ const ExcelUploader = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/upload", formData);
+      const res = await axios.post("http://localhost:3000/upload", formData);
       setSnackbar({ open: true, message: res.data, severity: "success" });
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -55,7 +55,7 @@ const ExcelUploader = () => {
 
   const fetchPrecios = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/precios");
+      const res = await axios.get("http://localhost:3000/precios");
       const datos = res.data.map((p) => ({
         ...p,
         medida: `${p.ancho}/${p.perfil} R${p.rodado}`,

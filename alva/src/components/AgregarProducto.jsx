@@ -90,7 +90,7 @@ export default function AgregarProducto() {
         formData.append("imagenes", fileWithName);
       });
 
-      const res = await fetch("http://localhost:5000/add-producto", {
+      const res = await fetch("http://localhost:3000/add-producto", {
         method: "POST",
         body: formData,
       });

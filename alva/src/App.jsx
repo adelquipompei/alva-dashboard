@@ -1,28 +1,53 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
-import Button from '@mui/material/Button';
+
 import MiniDrawer from './components/MiniDrawer';
-import { Routes,Route } from 'react-router-dom';
-import Home from './components/Home'
-import AgregarProducto from './components/AgregarProducto';
-import ExcelUploader from './components/ExcelUploader';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
+
+import Login from './components/Login';
+
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [logueado, setLogueado] = useState();
+  const theme = createTheme({
+    palette: {
+      background: {
+        default: '#000', // fondo global
+      },
+      text: {
+        primary: '#fff',
+      },
+    },
+  });
+
 
   return (
     <>
 
-      <MiniDrawer />
+
+
       <Routes>
-        <Route path='/' element= {<Home/>} />
-        <Route path='/agregar-producto' element= {<AgregarProducto/>} />
-        <Route path='/subir-excel' element= {<ExcelUploader/>} />
+
+
+
+        <Route
+          path='/'
+          element={logueado ? <Navigate to="/dashboard" /> : <ThemeProvider theme={theme}><CssBaseline /><Login setLogueado={setLogueado} /></ThemeProvider>}
+        />
+
+
+
+        <Route
+          path='dashboard/*'
+          element={logueado ? <MiniDrawer /> : <Navigate to="/" />}
+        />
       </Routes>
+
 
 
 

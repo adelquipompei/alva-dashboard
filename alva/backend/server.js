@@ -138,7 +138,7 @@ app.post("/add-producto", upload.array("imagenes", 5), async (req, res) => {
   }
 });
 
-;
+
 
 
 const PORT = 5000;

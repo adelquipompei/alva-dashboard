@@ -19,6 +19,7 @@
     "browser-image-compression": "^2.0.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "framer-motion": "^12.23.24",
     "fs": "^0.0.1-security",
     "multer": "^2.0.2",
     "mysql2": "^3.15.2",

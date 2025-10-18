@@ -23,8 +23,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ArticleIcon from '@mui/icons-material/Article';
-
-
+import { Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import AgregarProducto from './AgregarProducto';
+import ExcelUploader from './ExcelUploader';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -106,14 +108,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 let items = [
-  {text:'Inicio', path:'/', icon: <HomeIcon/>},
-  {text:'Agregar Producto', path:'/agregar-producto', icon: <AddIcon/>},
-  {text:'Subir Excel', path:'/subir-excel', icon: <ArticleIcon/>},
-
+  { text: 'Inicio', path: '/dashboard/', icon: <HomeIcon /> },
+  { text: 'Agregar Producto', path: '/dashboard/agregar-producto', icon: <AddIcon /> },
+  { text: 'Subir Excel', path: '/dashboard/subir-excel', icon: <ArticleIcon /> },
 ]
 
-export default function MiniDrawer() {
-const navigate = useNavigate();
+
+export default function MiniDrawer({setLogueado}) {
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -126,95 +128,103 @@ const navigate = useNavigate();
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={[
-              {
-                marginRight: 5,
-              },
-              open && { display: 'none' },
-            ]}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div" sx={{display:'flex',alignItems:'center'}}>
-            {<DashboardIcon sx={{mr:1}}/>} Panel de control 
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {items.map(({text,path,icon}, index) => (
-            <ListItem key={index} onClick={() => navigate(path)} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={[
-                  {
-                    minHeight: 48,
-                    px: 2.5,
-                  },
-                  open
-                    ? {
-                        justifyContent: 'initial',
-                      }
-                    : {
-                        justifyContent: 'center',
-                      },
-                ]}
-              >
-                <ListItemIcon
+    <>
+
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={[
+                {
+                  marginRight: 5,
+                },
+                open && { display: 'none' },
+              ]}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+              {<DashboardIcon sx={{ mr: 1 }} />} Panel de control
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {items.map(({ text, path, icon }, index) => (
+              <ListItem key={index} onClick={() => navigate(path)} disablePadding sx={{ display: 'block' }}>
+                <ListItemButton
                   sx={[
                     {
-                      minWidth: 0,
-                      justifyContent: 'center',
+                      minHeight: 48,
+                      px: 2.5,
                     },
                     open
                       ? {
-                          mr: 3,
-                        }
+                        justifyContent: 'initial',
+                      }
                       : {
-                          mr: 'auto',
-                        },
+                        justifyContent: 'center',
+                      },
                   ]}
                 >
-                  {icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[
-                    open
-                      ? {
+                  <ListItemIcon
+                    sx={[
+                      {
+                        minWidth: 0,
+                        justifyContent: 'center',
+                      },
+                      open
+                        ? {
+                          mr: 3,
+                        }
+                        : {
+                          mr: 'auto',
+                        },
+                    ]}
+                  >
+                    {icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={text}
+                    sx={[
+                      open
+                        ? {
                           opacity: 1,
                         }
-                      : {
+                        : {
                           opacity: 0,
                         },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      
-      </Drawer>
-      <Box component="main" >
-        <DrawerHeader />
-        
-          
+                    ]}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+
+        </Drawer>
+        <Box component="main" >
+          <DrawerHeader />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/agregar-producto' element={<AgregarProducto />} />
+            <Route path='/subir-excel' element={<ExcelUploader />} />
+          </Routes>
+
+
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
