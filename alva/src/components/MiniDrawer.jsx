@@ -27,6 +27,8 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Home';
 import AgregarProducto from './AgregarProducto';
 import ExcelUploader from './ExcelUploader';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import UploadIcon from '@mui/icons-material/Upload';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -106,11 +108,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ],
   }),
 );
-
 let items = [
   { text: 'Inicio', path: '/dashboard/', icon: <HomeIcon /> },
   { text: 'Agregar Producto', path: '/dashboard/agregar-producto', icon: <AddIcon /> },
-  { text: 'Subir Excel', path: '/dashboard/subir-excel', icon: <ArticleIcon /> },
+  { text: 'Subir Excel', path: '/dashboard/subir-excel', icon: <UploadIcon /> },
 ]
 
 

@@ -122,7 +122,7 @@ export default function AgregarProducto() {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: "100vh", backgroundColor: "#f8f9fa", p: 3 }}>
+    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: "100vh", p: 3 }}>
       <Paper elevation={5} sx={{ p: 4, borderRadius: 4, width: "100%", maxWidth: 700, mt: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <AddCircleIcon color="primary" sx={{ mr: 1, fontSize: 30 }} />

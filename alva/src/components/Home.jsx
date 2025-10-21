@@ -23,9 +23,7 @@ const ventasData = [
 export default function Home() {
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
-        🛞 Dashboard de Neumáticos
-      </Typography>
+      
       <Typography variant="body1" color="text.secondary" gutterBottom>
         Bienvenido al panel de control. Resumen de stock, ventas y actividad reciente.
       </Typography>

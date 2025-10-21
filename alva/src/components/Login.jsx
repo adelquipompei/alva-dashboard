@@ -30,17 +30,20 @@ function Login({setLogueado}) {
 
   return (
     <Box
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.palette.background.default,
-        
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+  sx={{
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundImage: `url(${theme.customBackground.image})`,
+    backgroundRepeat: 'repeat',
+    backgroundSize: 'auto', // o '100px 100px' si querés escalar el patrón
+    backgroundPosition: 'top left',
+  }}
+>
+  {/* tu contenido acá */}
+
+
       <motion.div
         initial={{ opacity: 0, scale: 0.8, y: 30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -52,7 +55,7 @@ function Login({setLogueado}) {
     position: 'relative',
     overflow: 'hidden',
     p: 5,
-    borderRadius: 4,
+    borderRadius: 2,
     minWidth: 380,
     background: 'rgba(255, 255, 255, 0.08)',
     backdropFilter: 'blur(20px) saturate(180%)',
