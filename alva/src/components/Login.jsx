@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { Lock, Person } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
+
+
 
 function Login({setLogueado}) {
   const [user, setUser] = useState('');
@@ -20,7 +20,7 @@ function Login({setLogueado}) {
       pass:pass
     }
     console.log(dataUser);
-    const resp = await axios.post(`http://${process.env.SERVER}:${process.env.PORT}/user-login`,dataUser);
+    const resp = await axios.post(`http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_PORT}/user-login`,dataUser);
      if(resp.data.login){
        setLogueado(true)
        sessionStorage.setItem("token",resp.data.token)

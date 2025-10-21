@@ -17,8 +17,8 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDropzone } from "react-dropzone";
-import dotenv from 'dotenv'
-dotenv.config();
+
+
 
 export default function AgregarProducto({setLogueado}) {
   const [producto, setProducto] = useState({
@@ -92,7 +92,7 @@ export default function AgregarProducto({setLogueado}) {
         formData.append("imagenes", fileWithName);
       });
 
-      const res = await fetch(`http://${process.env.SERVER}:${process.env.PORT}/add-producto`, {
+      const res = await fetch(`http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_PORT}/add-producto`, {
         headers: {Authorization: `Bearer ${sessionStorage.getItem('token')}`},
         method: "POST",
         body: formData,

@@ -20,9 +20,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 //import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DescriptionIcon from '@mui/icons-material/Description';
-import dotenv from dotenv
-
-dotenv.config();
 
 const ExcelUploader = ({ setLogueado }) => {
   const [file, setFile] = useState(null);
@@ -43,7 +40,7 @@ const ExcelUploader = ({ setLogueado }) => {
     setLoading(true);
 
     try {
-      const res = await axios.post(`http://${process.env.SERVER}:${process.env.PORT}/upload`, formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      const res = await axios.post(`http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_PORT}/upload`, formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
       if (res.status === 403) setLogueado(false);
       setSnackbar({ open: true, message: res.data, severity: "success" });
       setFile(null);
@@ -64,7 +61,7 @@ const ExcelUploader = ({ setLogueado }) => {
 
   const fetchPrecios = async () => {
     try {
-      const res = await axios.get(`http://${process.env.SERVER}:${process.env.PORT}/precios`, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      const res = await axios.get(`http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_PORT}/precios`, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
 
       const datos = res.data.map((p) => ({
         ...p,
