@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import fondo2 from './assets/fondo2.jpg'; // ruta relativa desde App.js
 
 import './App.css'
 
@@ -24,7 +25,7 @@ function App() {
       },
     },
     customBackground: {
-      image: 'url("/fondo2.jpg")', // ⚠️ tiene que estar en public o assets correctamente referenciado
+     image: `url(${fondo2})`, // ⚠️ tiene que estar en public o assets correctamente referenciado
     },
   });
 
@@ -40,7 +41,7 @@ function App() {
           sx={{
             position: "fixed",
             inset: 0,
-            backgroundImage: 'url("/fondo2.jpg")',
+            backgroundImage: `url(${fondo2})`,
             backgroundSize: "auto",       // o '80px 80px' si querés escalar el patrón
             backgroundPosition: "top left",
             backgroundAttachment: "fixed",
