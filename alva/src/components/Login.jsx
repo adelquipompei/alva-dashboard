@@ -21,6 +21,7 @@ function Login({setLogueado}) {
     const resp = await axios.post('http://localhost:3000/user-login',dataUser);
      if(resp.data.login){
        setLogueado(true)
+       sessionStorage.setItem("token",resp.data.token)
     }
       
 

@@ -219,8 +219,8 @@ export default function MiniDrawer({setLogueado}) {
           <DrawerHeader />
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/agregar-producto' element={<AgregarProducto />} />
-            <Route path='/subir-excel' element={<ExcelUploader />} />
+            <Route path='/agregar-producto' element={<AgregarProducto setLogueado={setLogueado} />} />
+            <Route path='/subir-excel' element={<ExcelUploader setLogueado={setLogueado} />} />
           </Routes>
 
 

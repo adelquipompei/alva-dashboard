@@ -21,7 +21,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 //import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DescriptionIcon from '@mui/icons-material/Description';
 
-const ExcelUploader = () => {
+const ExcelUploader = ({ setLogueado }) => {
   const [file, setFile] = useState(null);
   const [precios, setPrecios] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,13 +40,19 @@ const ExcelUploader = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:3000/upload", formData);
+      const res = await axios.post("http://localhost:3000/upload", formData, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } });
+      if (res.status === 403) setLogueado(false);
       setSnackbar({ open: true, message: res.data, severity: "success" });
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
       fetchPrecios();
     } catch (error) {
-      setSnackbar({ open: true, message: "Error subiendo el archivo", severity: "error" });
+      if (error.response && error.response.status === 403) {
+        setLogueado(false);
+        setSnackbar({ open: true, message: "Token inválido o expirado", severity: "error" });
+      } else {
+        setSnackbar({ open: true, message: "Error subiendo el archivo", severity: "error" });
+      }
       console.error(error);
     } finally {
       setLoading(false);
@@ -56,6 +62,7 @@ const ExcelUploader = () => {
   const fetchPrecios = async () => {
     try {
       const res = await axios.get("http://localhost:3000/precios");
+      if (res.status === 403) setLogueado(false);
       const datos = res.data.map((p) => ({
         ...p,
         medida: `${p.ancho}/${p.perfil} R${p.rodado}`,
@@ -63,6 +70,7 @@ const ExcelUploader = () => {
       setPrecios(datos);
     } catch (error) {
       console.error(error);
+
     }
   };
 

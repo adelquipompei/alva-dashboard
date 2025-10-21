@@ -17,8 +17,9 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDropzone } from "react-dropzone";
+import { Token } from "@mui/icons-material";
 
-export default function AgregarProducto() {
+export default function AgregarProducto({setLogueado}) {
   const [producto, setProducto] = useState({
     marca: "",
     codigo: "",
@@ -91,13 +92,13 @@ export default function AgregarProducto() {
       });
 
       const res = await fetch("http://localhost:3000/add-producto", {
+        headers: {Authorization: `Bearer ${sessionStorage.getItem('token')}`},
         method: "POST",
         body: formData,
       });
 
       
-      console.log(imagenes)
-
+      if (res.status === 403) setLogueado(false);
       if (!res.ok) throw new Error("Error en la respuesta del servidor");
 
       setMensaje("Producto agregado correctamente ✅");

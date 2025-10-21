@@ -64,7 +64,7 @@ function App() {
 
           <Route
             path='dashboard/*'
-            element={logueado ? <MiniDrawer /> : <Navigate to="/" />}
+            element={logueado ? <MiniDrawer setLogueado={setLogueado} /> : <Navigate to="/" />}
           />
         </Routes>
 
