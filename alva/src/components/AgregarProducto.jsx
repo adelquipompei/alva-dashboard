@@ -124,10 +124,10 @@ export default function AgregarProducto({setLogueado}) {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: "100vh", p: 3 }}>
-      <Paper elevation={5} sx={{ p: 4, borderRadius: 4, width: "100%", maxWidth: 700, mt: 4 }}>
+    <Box sx={{display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: "100vh", p: 3 }}>
+      <Paper elevation={5} sx={{  p: 4, borderRadius: 4, width: "100%", maxWidth: 700, mt: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          <AddCircleIcon color="primary" sx={{ mr: 1, fontSize: 30 }} />
+          <AddCircleIcon  sx={{ mr: 1, fontSize: 30 ,color:'#212529'}} />
           <Typography variant="h5" fontWeight="bold">Agregar nuevo producto</Typography>
         </Box>
 
@@ -154,7 +154,7 @@ export default function AgregarProducto({setLogueado}) {
             {/* 🖼️ Área Drag & Drop */}
             <Grid item xs={12}>
               <Box {...getRootProps()} sx={{
-                border: "2px dashed #1976d2",
+                border: "2px dashed #212529",
                 borderRadius: 2,
                 p: 3,
                 textAlign: "center",
@@ -186,7 +186,7 @@ export default function AgregarProducto({setLogueado}) {
             </Grid>
           </Grid>
 
-          <Button variant="contained" color="primary" type="submit" fullWidth sx={{ mt: 4, py: 1.2, fontWeight: "bold" }}>
+          <Button variant="contained"  type="submit" fullWidth sx={{ mt: 4, py: 1.2, fontWeight: "bold",backgroundColor:'#ffc107',color:'#212529' }}>
             Guardar producto
           </Button>
         </form>

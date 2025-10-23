@@ -29,6 +29,8 @@ import AgregarProducto from './AgregarProducto';
 import ExcelUploader from './ExcelUploader';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import UploadIcon from '@mui/icons-material/Upload';
+import DvrIcon from '@mui/icons-material/Dvr';
+import ListaPedidos from './ListaPedidos';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -108,8 +110,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ],
   }),
 );
+
 let items = [
-  { text: 'Inicio', path: '/dashboard/', icon: <HomeIcon /> },
+  //{ text: 'Inicio', path: '/dashboard/', icon: <HomeIcon /> },
+  { text: 'Ver Pedidos', path: '/dashboard/ver-pedidos', icon: <DvrIcon /> },
   { text: 'Agregar Producto', path: '/dashboard/agregar-producto', icon: <AddIcon /> },
   { text: 'Subir Excel', path: '/dashboard/subir-excel', icon: <UploadIcon /> },
 ]
@@ -131,10 +135,10 @@ export default function MiniDrawer({setLogueado}) {
   return (
     <>
 
-      <Box sx={{ display: 'flex' }}>
+      <Box  sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open}>
-          <Toolbar>
+        <AppBar  position="fixed" open={open}>
+          <Toolbar sx={{ backgroundColor: "#212529" }} >
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -147,15 +151,15 @@ export default function MiniDrawer({setLogueado}) {
                 open && { display: 'none' },
               ]}
             >
-              <MenuIcon />
+              <MenuIcon sx={{color:'#FFC107'}}/>
             </IconButton>
-            <Typography variant="h6" noWrap component="div" sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h6" noWrap component="div" sx={{ display: 'flex', alignItems: 'center',color:'#FFC107' }}>
               {<DashboardIcon sx={{ mr: 1 }} />} Panel de control
             </Typography>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-          <DrawerHeader>
+          <DrawerHeader >
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
@@ -218,9 +222,10 @@ export default function MiniDrawer({setLogueado}) {
         <Box component="main" >
           <DrawerHeader />
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<ListaPedidos />} />
             <Route path='/agregar-producto' element={<AgregarProducto setLogueado={setLogueado} />} />
             <Route path='/subir-excel' element={<ExcelUploader setLogueado={setLogueado} />} />
+            <Route path='/Ver-pedidos' element={<ListaPedidos setLogueado={setLogueado} />} />
           </Routes>
 
 

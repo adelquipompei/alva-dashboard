@@ -108,13 +108,14 @@ const ExcelUploader = ({ setLogueado }) => {
       <Paper
         elevation={0}
         sx={{
-          border: `2px dashed ${dragOver ? "#1976d2" : "#ccc"}`,
+          border: `2px dashed ${dragOver ? "#212529" : "#212529"}`,
           borderRadius: 3,
           p: 5,
           textAlign: "center",
           color: dragOver ? "#1976d2" : "#555",
           cursor: "pointer",
           transition: "all 0.3s ease",
+          background:'#ffc10768',
           mb: 3,
         }}
         onDrop={handleDrop}
@@ -158,12 +159,13 @@ const ExcelUploader = ({ setLogueado }) => {
       </Paper>
 
       <Button
+      
         variant="contained"
-        color="primary"
+        
         startIcon={<UploadFileIcon />}
         onClick={handleUpload}
         disabled={loading}
-        sx={{ mb: 4 }}
+        sx={{ mb: 4,background:'#ffc107',color:'#212529' }}
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : "Subir Archivo"}
       </Button>
@@ -171,12 +173,12 @@ const ExcelUploader = ({ setLogueado }) => {
       {/* Tabla de precios más facha */}
       <Paper sx={{ overflowX: "auto" }}>
         <Table sx={{ minWidth: 600 }}>
-          <TableHead sx={{ backgroundColor: "#1976d2" }}>
+          <TableHead sx={{ backgroundColor: "#212529" }}>
             <TableRow>
-              <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>ID</TableCell>
-              <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Marca</TableCell>
-              <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Medida</TableCell>
-              <TableCell sx={{ color: "#fff", fontWeight: "bold" }}>Precio</TableCell>
+              <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>ID</TableCell>
+              <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Marca</TableCell>
+              <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Medida</TableCell>
+              <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Precio</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -184,8 +186,8 @@ const ExcelUploader = ({ setLogueado }) => {
               <TableRow
                 key={p.id}
                 sx={{
-                  backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#fff",
-                  "&:hover": { backgroundColor: "#e3f2fd" },
+                  backgroundColor: index % 2 === 0 ? "#ffc1073d" : "#fff",
+                  "&:hover": { backgroundColor: "#ffc10774" },
                 }}
               >
                 <TableCell>{p.id}</TableCell>

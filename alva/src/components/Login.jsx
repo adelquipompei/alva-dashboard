@@ -38,7 +38,7 @@ function Login({setLogueado}) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundImage: `url(${theme.customBackground.image})`,
+    
     backgroundRepeat: 'repeat',
     backgroundSize: 'auto', // o '100px 100px' si querés escalar el patrón
     backgroundPosition: 'top left',
