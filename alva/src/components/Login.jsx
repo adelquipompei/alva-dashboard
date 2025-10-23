@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Lock, Person } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-
+import logoPrincipal from '../assets/logoPrincipal.png';
 
 
 function Login({setLogueado}) {
@@ -89,27 +89,9 @@ function Login({setLogueado}) {
   }}
 >
 
-          <Typography
-            variant="h4"
-            align="center"
-            sx={{
-              mb: 2,
-              fontWeight: 900,
-              letterSpacing: 2,
-              color: '#ff9800',
-              textShadow: '0 0 10px rgba(255,152,0,0.5)',
-            }}
-          >
-            ALVA NEUMÁTICOS
-          </Typography>
+          <img style={{width:'200px'}} src={logoPrincipal}  alt="" />
 
-          <Typography
-            variant="subtitle1"
-            align="center"
-            sx={{ mb: 4, color: '#ddd' }}
-          >
-            Panel Administrativo
-          </Typography>
+          
 
           <form onSubmit={handleSubmit}>
             <TextField

@@ -31,6 +31,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import UploadIcon from '@mui/icons-material/Upload';
 import DvrIcon from '@mui/icons-material/Dvr';
 import ListaPedidos from './ListaPedidos';
+import logoPrincipal from '../assets/logoPrincipal.png';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -153,13 +154,12 @@ export default function MiniDrawer({setLogueado}) {
             >
               <MenuIcon sx={{color:'#FFC107'}}/>
             </IconButton>
-            <Typography variant="h6" noWrap component="div" sx={{ display: 'flex', alignItems: 'center',color:'#FFC107' }}>
-              {<DashboardIcon sx={{ mr: 1 }} />} Panel de control
-            </Typography>
+            <img style={{width:'70px'}} src={logoPrincipal} alt="" />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
-          <DrawerHeader >
+          <DrawerHeader sx={{display:'flex',justifyContent:'space-evenly'}} >
+            <img style={{width:'70px'}} src={logoPrincipal} alt="" />
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>

@@ -125,7 +125,7 @@ export default function AgregarProducto({setLogueado}) {
 
   return (
     <Box sx={{display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: "100vh", p: 3 }}>
-      <Paper elevation={5} sx={{  p: 4, borderRadius: 4, width: "100%", maxWidth: 700, mt: 4 }}>
+      <Paper elevation={5} sx={{  p: 4, borderRadius: 2, width: "100%", maxWidth: 700, mt: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
           <AddCircleIcon  sx={{ mr: 1, fontSize: 30 ,color:'#212529'}} />
           <Typography variant="h5" fontWeight="bold">Agregar nuevo producto</Typography>

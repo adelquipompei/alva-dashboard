@@ -170,7 +170,7 @@ const ExcelUploader = ({ setLogueado }) => {
         {loading ? <CircularProgress size={24} color="inherit" /> : "Subir Archivo"}
       </Button>
 
-      {/* Tabla de precios más facha */}
+      
       <Paper sx={{ overflowX: "auto" }}>
         <Table sx={{ minWidth: 600 }}>
           <TableHead sx={{ backgroundColor: "#212529" }}>
