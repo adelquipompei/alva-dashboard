@@ -47,11 +47,15 @@ const ExcelUploader = ({ setLogueado }) => {
       if (fileInputRef.current) fileInputRef.current.value = "";
       fetchPrecios();
     } catch (error) {
+      
       if (error.response && error.response.status === 403) {
         setLogueado(false);
         setSnackbar({ open: true, message: "Token inválido o expirado", severity: "error" });
-      } else {
-        setSnackbar({ open: true, message: "Error subiendo el archivo", severity: "error" });
+      } else if(error.response.status === 400) {
+          setSnackbar({ open: true, message: error.response.data, severity: "error" });
+      }else{
+        setSnackbar({ open: true, message: "Error subiendo el archivo ", severity: "error" });
+        
       }
       console.error(error);
     } finally {
@@ -205,7 +209,7 @@ const ExcelUploader = ({ setLogueado }) => {
         open={snackbar.open}
         autoHideDuration={4000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
         <Alert
           onClose={() => setSnackbar({ ...snackbar, open: false })}
