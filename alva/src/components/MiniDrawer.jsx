@@ -188,6 +188,7 @@ export default function MiniDrawer({setLogueado}) {
                       {
                         minWidth: 0,
                         justifyContent: 'center',
+
                       },
                       open
                         ? {
