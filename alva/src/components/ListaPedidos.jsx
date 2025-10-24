@@ -69,11 +69,12 @@ function ListaPedidos() {
         const res = await axios.get(`http://${import.meta.env.VITE_SERVER}:${import.meta.env.VITE_PORT}/historial-pedidos`, {
           headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` },
         });
-        const datos = res.data.map(p => ({
+        const datos = (res.data.historial || []).map(p => ({
           ...p,
           cliente: `${p.nombre} ${p.apellido}`,
           estado: p.estado || 'Pendiente',
         }));
+
         setPedidos(datos);
       } catch (err) {
         console.error('Error cargando pedidos:', err);
@@ -89,7 +90,7 @@ function ListaPedidos() {
 
   const filteredPedidos = pedidos.filter(
     p =>
-      (p.cliente?.toLowerCase().includes(filter.toLowerCase()) || 
+    (p.cliente?.toLowerCase().includes(filter.toLowerCase()) ||
       p.descripcion?.toLowerCase().includes(filter.toLowerCase()))
   );
 
@@ -101,7 +102,7 @@ function ListaPedidos() {
     const hoy = new Date();
     const ayer = new Date(); ayer.setDate(hoy.getDate() - 1);
 
-    const mismoDia = (a,b) => a.getDate()===b.getDate() && a.getMonth()===b.getMonth() && a.getFullYear()===b.getFullYear();
+    const mismoDia = (a, b) => a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
 
     const hora = fecha.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
 
@@ -169,7 +170,7 @@ function ListaPedidos() {
                     <TableCell>
                       <Chip
                         label={p.estado}
-                        color={p.estado==='Entregado'?'success':p.estado==='Cancelado'?'error':'warning'}
+                        color={p.estado === 'Entregado' ? 'success' : p.estado === 'Cancelado' ? 'error' : 'warning'}
                         size="small"
                       />
                     </TableCell>
@@ -185,7 +186,7 @@ function ListaPedidos() {
                   <TableRow>
                     <TableCell colSpan={8} sx={{ p: 0, border: 0 }}>
                       <Collapse in={openRows[p.id_pedido_]} timeout="auto" unmountOnExit>
-                        <Box sx={{ display: 'flex', gap: 2, margin: 2,  p: 2, borderRadius: 1,alignItems:'center' }}>
+                        <Box sx={{ display: 'flex', gap: 2, margin: 2, p: 2, borderRadius: 1, alignItems: 'center' }}>
                           <Box sx={{ flex: 1 }}>
                             <Typography variant="subtitle2"><strong>Nombre:</strong> {p.nombre}</Typography>
                             <Typography variant="subtitle2"><strong>Apellido:</strong> {p.apellido}</Typography>
