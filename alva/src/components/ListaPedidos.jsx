@@ -62,6 +62,16 @@ function ListaPedidos() {
   const [openRows, setOpenRows] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const formatearPrecio = (precio) => {
+  if (precio == null) return '-';
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    minimumFractionDigits: 2,
+  }).format(precio);
+};
+
+
   useEffect(() => {
     const fetchPedidos = async () => {
       setLoading(true);
@@ -74,6 +84,8 @@ function ListaPedidos() {
           cliente: `${p.nombre} ${p.apellido}`,
           estado: p.estado || 'Pendiente',
         }));
+
+        
 
         setPedidos(datos);
       } catch (err) {
@@ -166,7 +178,7 @@ function ListaPedidos() {
                     </TableCell>
                     <TableCell>{p.descripcion}</TableCell>
                     <TableCell>{p.cantidad}</TableCell>
-                    <TableCell>${p.precio_compra}</TableCell>
+                    <TableCell>{formatearPrecio(p.precio_compra)}</TableCell>
                     <TableCell>
                       <Chip
                         label={p.estado}
