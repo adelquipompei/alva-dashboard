@@ -15,7 +15,10 @@ import Login from './components/Login';
 
 
 function App() {
-  const [logueado, setLogueado] = useState();
+ const [logueado, setLogueado] = useState(() => {
+  return !!sessionStorage.getItem("token");
+});
+
   const theme = createTheme({
     palette: {
       background: {

@@ -14,16 +14,21 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  TextField
 } from "@mui/material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-//import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DescriptionIcon from '@mui/icons-material/Description';
+import BoxBienvenida from "./BoxBienvenida";
+
+
 
 const ExcelUploader = ({ setLogueado }) => {
   const [file, setFile] = useState(null);
   const [precios, setPrecios] = useState([]);
+  const [filteredPrecios, setFilteredPrecios] = useState([]);
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
   const [dragOver, setDragOver] = useState(false);
@@ -47,15 +52,13 @@ const ExcelUploader = ({ setLogueado }) => {
       if (fileInputRef.current) fileInputRef.current.value = "";
       fetchPrecios();
     } catch (error) {
-      
       if (error.response && error.response.status === 403) {
         setLogueado(false);
         setSnackbar({ open: true, message: "Token inválido o expirado", severity: "error" });
-      } else if(error.response.status === 400) {
-          setSnackbar({ open: true, message: error.response.data, severity: "error" });
-      }else{
+      } else if (error.response.status === 400) {
+        setSnackbar({ open: true, message: error.response.data, severity: "error" });
+      } else {
         setSnackbar({ open: true, message: "Error subiendo el archivo ", severity: "error" });
-        
       }
       console.error(error);
     } finally {
@@ -72,14 +75,27 @@ const ExcelUploader = ({ setLogueado }) => {
         medida: `${p.ancho}/${p.perfil} R${p.rodado}`,
       }));
       setPrecios(datos);
+      setFilteredPrecios(datos);
     } catch (error) {
       if (error.response?.status === 403) {
-        setLogueado(false); // token inválido o expirado
+        setLogueado(false);
       }
       console.error(error);
-
     }
   };
+
+  // Filtrado en tiempo real
+  useEffect(() => {
+    if (!filter) {
+      setFilteredPrecios(precios);
+    } else {
+      const lowerFilter = filter.toLowerCase();
+      const filtered = precios.filter(
+        p => p.marca.toLowerCase().includes(lowerFilter) || p.medida.toLowerCase().includes(lowerFilter)
+      );
+      setFilteredPrecios(filtered);
+    }
+  }, [filter, precios]);
 
   useEffect(() => {
     fetchPrecios();
@@ -104,10 +120,27 @@ const ExcelUploader = ({ setLogueado }) => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" mb={3} fontWeight="bold">
-        Subir Excel de Precios
-      </Typography>
+      <BoxBienvenida
+        icon={<DescriptionIcon sx={{ color: '#ffc107', fontSize: 28 }} />}
+        text="Aquí puedes subir tu lista de precios en Excel. Cada registro se agregará automáticamente a tu inventario y se reflejará de inmediato en la página, manteniendo todo organizado y actualizado."
+        titulo="Subir Excel de Precios"
+      />
 
+
+
+      <Button
+        variant="outlined"
+        sx={{ mb: 2, marginLeft: 2 }}
+        onClick={() => {
+          // Cambia la ruta según donde tengas tu plantilla
+          const link = document.createElement('a');
+          link.href = '/plantilla_de_ejemplo.xlsx';
+          link.download = 'plantilla_de_ejemplo.xlsx';
+          link.click();
+        }}
+      >
+        Descargar plantilla de ejemplo
+      </Button>
       {/* Drag & Drop */}
       <Paper
         elevation={0}
@@ -119,7 +152,7 @@ const ExcelUploader = ({ setLogueado }) => {
           color: dragOver ? "#1976d2" : "#555",
           cursor: "pointer",
           transition: "all 0.3s ease",
-          background:'#ffc10768',
+          background: '#ffc10768',
           mb: 3,
         }}
         onDrop={handleDrop}
@@ -163,18 +196,29 @@ const ExcelUploader = ({ setLogueado }) => {
       </Paper>
 
       <Button
-      
         variant="contained"
-        
         startIcon={<UploadFileIcon />}
         onClick={handleUpload}
         disabled={loading}
-        sx={{ mb: 4,background:'#ffc107',color:'#212529' }}
+        sx={{ mb: 2, background: '#ffc107', color: '#212529' }}
       >
         {loading ? <CircularProgress size={24} color="inherit" /> : "Subir Archivo"}
       </Button>
 
-      
+
+
+
+
+      {/* Filtro */}
+      <TextField
+        label="Filtrar por marca o medida"
+        variant="outlined"
+        fullWidth
+        sx={{ mb: 2 }}
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+
       <Paper sx={{ overflowX: "auto" }}>
         <Table sx={{ minWidth: 600 }}>
           <TableHead sx={{ backgroundColor: "#212529" }}>
@@ -186,7 +230,7 @@ const ExcelUploader = ({ setLogueado }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {precios.map((p, index) => (
+            {filteredPrecios.map((p, index) => (
               <TableRow
                 key={p.id}
                 sx={{

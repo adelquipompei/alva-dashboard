@@ -1,39 +1,30 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import AddIcon from '@mui/icons-material/Add';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ArticleIcon from '@mui/icons-material/Article';
-import { Route, Routes } from 'react-router-dom';
+import {
+  Box, CssBaseline, Toolbar, Typography, Divider,
+  IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+  AppBar as MuiAppBar, Drawer as MuiDrawer, Button
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+  Add as AddIcon,
+  Upload as UploadIcon,
+  Dvr as DvrIcon,
+  Logout as LogoutIcon
+} from '@mui/icons-material';
+import { useNavigate, Routes, Route } from 'react-router-dom';
+import logoPrincipal from '../assets/logoPrincipal.png';
 import Home from './Home';
 import AgregarProducto from './AgregarProducto';
 import ExcelUploader from './ExcelUploader';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import UploadIcon from '@mui/icons-material/Upload';
-import DvrIcon from '@mui/icons-material/Dvr';
 import ListaPedidos from './ListaPedidos';
-import logoPrincipal from '../assets/logoPrincipal.png';
+import { jwtDecode } from "jwt-decode";
+
 const drawerWidth = 240;
 
+// Mixins del Drawer
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -60,7 +51,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -113,125 +103,129 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 let items = [
-  //{ text: 'Inicio', path: '/dashboard/', icon: <HomeIcon /> },
   { text: 'Ver Pedidos', path: '/dashboard/ver-pedidos', icon: <DvrIcon /> },
   { text: 'Agregar Producto', path: '/dashboard/agregar-producto', icon: <AddIcon /> },
   { text: 'Subir Excel', path: '/dashboard/subir-excel', icon: <UploadIcon /> },
-]
+];
 
-
-export default function MiniDrawer({setLogueado}) {
+export default function MiniDrawer({ setLogueado }) {
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [username, setUsername] = React.useState("");
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  React.useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUsername(decoded.user || decoded.username || "Administrador");
+      } catch (err) {
+        console.error("Error al decodificar el token:", err);
+        setLogueado(false);
+      }
+    }
+  }, []);
 
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
+
+  // 🔐 Función para cerrar sesión
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    setLogueado(false);
+    navigate("/"); // redirige al login o página inicial
   };
 
   return (
-    <>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar sx={{ backgroundColor: "#212529" }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={[
+              { marginRight: 5 },
+              open && { display: 'none' },
+            ]}
+          >
+            <MenuIcon sx={{ color: '#FFC107' }} />
+          </IconButton>
+          <img style={{ width: '70px' }} src={logoPrincipal} alt="logo" />
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, color: "#FFC107", marginLeft: 2 }}
+          >
+            ¡Hola, {username}!
+          </Typography>
 
-      <Box  sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar  position="fixed" open={open}>
-          <Toolbar sx={{ backgroundColor: "#212529" }} >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={[
-                {
-                  marginRight: 5,
-                },
-                open && { display: 'none' },
-              ]}
-            >
-              <MenuIcon sx={{color:'#FFC107'}}/>
-            </IconButton>
-            <img style={{width:'70px'}} src={logoPrincipal} alt="" />
-          </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-          <DrawerHeader sx={{display:'flex',justifyContent:'space-evenly'}} >
-            <img style={{width:'70px'}} src={logoPrincipal} alt="" />
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <List>
-            {items.map(({ text, path, icon }, index) => (
-              <ListItem key={index} onClick={() => navigate(path)} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                  sx={[
-                    {
-                      minHeight: 48,
-                      px: 2.5,
-                    },
-                    open
-                      ? {
-                        justifyContent: 'initial',
-                      }
-                      : {
-                        justifyContent: 'center',
-                      },
-                  ]}
+          {/* 🔘 BOTÓN DE LOGOUT */}
+          <Button
+            color="inherit"
+            onClick={handleLogout}
+            startIcon={<LogoutIcon sx={{ color: '#FFC107' }} />}
+            sx={{
+              color: '#FFC107',
+              
+            }}
+          >
+           
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+          <img style={{ width: '70px' }} src={logoPrincipal} alt="" />
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          {items.map(({ text, path, icon }, index) => (
+            <ListItem key={index} disablePadding sx={{ display: 'block' }} onClick={() => navigate(path)}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  px: 2.5,
+                  justifyContent: open ? 'initial' : 'center'
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    justifyContent: 'center',
+                    mr: open ? 3 : 'auto'
+                  }}
                 >
-                  <ListItemIcon
-                    sx={[
-                      {
-                        minWidth: 0,
-                        justifyContent: 'center',
+                  {icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={text}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+      </Drawer>
 
-                      },
-                      open
-                        ? {
-                          mr: 3,
-                        }
-                        : {
-                          mr: 'auto',
-                        },
-                    ]}
-                  >
-                    {icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={text}
-                    sx={[
-                      open
-                        ? {
-                          opacity: 1,
-                        }
-                        : {
-                          opacity: 0,
-                        },
-                    ]}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-
-        </Drawer>
-        <Box component="main" >
-          <DrawerHeader />
-          <Routes>
-            <Route path='/' element={<ListaPedidos />} />
-            <Route path='/agregar-producto' element={<AgregarProducto setLogueado={setLogueado} />} />
-            <Route path='/subir-excel' element={<ExcelUploader setLogueado={setLogueado} />} />
-            <Route path='/Ver-pedidos' element={<ListaPedidos setLogueado={setLogueado} />} />
-          </Routes>
-
-
-        </Box>
+      <Box component="main">
+        <DrawerHeader />
+        <Routes>
+          <Route path='/' element={<ListaPedidos />} />
+          <Route path='/agregar-producto' element={<AgregarProducto setLogueado={setLogueado} />} />
+          <Route path='/subir-excel' element={<ExcelUploader setLogueado={setLogueado} />} />
+          <Route path='/ver-pedidos' element={<ListaPedidos setLogueado={setLogueado} />} />
+        </Routes>
       </Box>
-    </>
+    </Box>
   );
 }
