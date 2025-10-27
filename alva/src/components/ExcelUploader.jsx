@@ -226,6 +226,7 @@ const ExcelUploader = ({ setLogueado }) => {
               <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>ID</TableCell>
               <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Marca</TableCell>
               <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Medida</TableCell>
+              <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Stock</TableCell>
               <TableCell sx={{ color: "#ffc107", fontWeight: "bold" }}>Precio</TableCell>
             </TableRow>
           </TableHead>
@@ -241,6 +242,7 @@ const ExcelUploader = ({ setLogueado }) => {
                 <TableCell>{p.id}</TableCell>
                 <TableCell>{p.marca}</TableCell>
                 <TableCell>{p.medida}</TableCell>
+                <TableCell>{p.stock === 0 ? <Typography sx={{color:'red'}}>Sin Stock </Typography> : p.stock}</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>${p.precio}</TableCell>
               </TableRow>
             ))}
